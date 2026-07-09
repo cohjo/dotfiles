@@ -1,0 +1,5 @@
+require("mobile.options")
+require("mobile.keymaps")
+require("mobile.lazy")
+require("mobile.lsp")
+require("mobile.format")

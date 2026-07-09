@@ -1,0 +1,42 @@
+theme = "base16_terminal"
+
+[editor]
+auto-format = true
+auto-save = false
+bufferline = "never"
+color-modes = true
+completion-timeout = 100
+cursorline = false
+line-number = "relative"
+mouse = false
+popup-border = "all"
+preview-completion-insert = false
+rulers = []
+scrolloff = 3
+shell = ["zsh", "-c"]
+true-color = true
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.file-picker]
+hidden = false
+git-ignore = true
+
+[editor.lsp]
+display-inlay-hints = false
+display-messages = true
+
+[editor.statusline]
+left = ["mode", "spinner", "file-name"]
+center = []
+right = ["diagnostics", "selections", "position", "file-encoding"]
+separator = " "
+mode.normal = "N"
+mode.insert = "I"
+mode.select = "S"
+
+[keys.normal]
+"space" = { w = ":write", q = ":quit", x = ":buffer-close", c = ":config-open" }
