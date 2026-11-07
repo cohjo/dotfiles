@@ -1,122 +1,68 @@
-# Mobile-Friendly CLI Editor Dotfiles
+# CLI Editor Dotfiles
 
-This is a small terminal editor setup for SSHing into a MacBook from an iPhone.
-It favors predictable rendering, low visual noise, and tools that survive small
-screens better than full Neovim distributions.
+Lightweight Neovim with Vim bindings, Tokyo Night, Mason-managed full-stack
+language support, completion, formatting, fuzzy pickers and Git signs.
+The setup also works in SSH/tmux sessions.
 
-## Recommendation
+## Fresh machine
 
-Use this order:
-
-1. Neovim custom config if you already have Vim muscle memory.
-2. Helix if you want the most mobile-friendly editor with the fewest plugins.
-3. LazyVim only on desktop or tablet-sized terminals.
-
-LazyVim is excellent, but on a phone it brings too many always-visible UI
-surfaces. A mobile editor should prefer command palettes, fuzzy finders, and
-pull-based diagnostics over sidebars, dashboards, tablines, breadcrumbs, and
-large completion docs.
-
-## Minimal Neovim Stack
-
-This setup uses only four plugin entries:
-
-- `nvim-mini/mini.nvim`: statusline, picker, comments, pairs, surround, textobjects.
-- `neovim/nvim-lspconfig`: server configs for Neovim's built-in LSP client.
-- `saghen/blink.cmp`: fast completion with LSP, path, and buffer sources.
-- `stevearc/conform.nvim`: format-on-save and manual formatting.
-
-It deliberately does not include:
-
-- a file tree
-- tabs/buffers UI
-- dashboard
-- breadcrumb/nav bar
-- notification framework
-- Mason tool installer
-- Treesitter by default
-
-Language servers and formatters should be installed as normal CLI tools on the
-Mac. That keeps Neovim simple and makes the same tools usable from shell,
-Helix, Codex, and scripts.
-
-## Install Neovim Config
-
-Back up your existing config first:
+Clone this repository anywhere, then run from its root:
 
 ```sh
-mv ~/.config/nvim ~/.config/nvim.lazyvim.backup
+git clone https://github.com/cohjo/dotfiles.git
+cd dotfiles
+make setup
 ```
 
-Symlink this config:
+With Homebrew installed, this installs the system runtimes from `Brewfile`,
+backs up an existing Neovim config, links this repo's config, restores locked
+plugin revisions, and installs all declared Mason tools and Treesitter parsers.
+On macOS, install Apple's command line tools first (`xcode-select --install`).
 
-```sh
-ln -s /Users/conorjohnston/github/dotfiles/nvim ~/.config/nvim
-```
+On Linux, install the prerequisites listed in [nvim/README.md](nvim/README.md)
+with your package manager, then run `make nvim`. You can also use `make nvim`
+on a Mac whose runtimes are already installed. The command is safe to rerun;
+it exits with a failure if tool installation fails.
 
-Start Neovim:
+## Toolchain
 
-```sh
-nvim
-```
+[nvim/lua/toolchain.lua](nvim/lua/toolchain.lua) declares all language servers,
+linters, formatters and parsers. Mason installs missing tools on normal startup
+as well. You do not need to install language servers globally with npm or brew.
+`nvim/lazy-lock.json` records plugin revisions; Mason installs available tool
+versions on a new machine, and does not automatically upgrade existing tools.
+Project dependency versions and CI lint/typecheck commands belong in each project.
 
-The first launch bootstraps `lazy.nvim` and installs plugins.
+| Area | Tools |
+| --- | --- |
+| TypeScript, JavaScript, React | TypeScript language server, Oxlint, Prettier |
+| Python | ty, Ruff linting and formatting |
+| Java | jdtls |
+| HTML, CSS, SCSS, Less | VS Code HTML/CSS language servers, Prettier |
+| JSON/JSONC, YAML | JSON/YAML language servers, SchemaStore, Prettier |
+| SQL | sqls, manual sql-formatter |
+| Shell | Bash language server, ShellCheck, shfmt |
+| Docker / Compose | Dockerfile and Compose language servers |
+| TOML, Markdown, Lua | Taplo, Marksman, Lua language server; StyLua/Prettier |
 
-## Install Useful Language Tools
+See [Neovim usage and project configuration](nvim/README.md) for keys, SQL
+connections/dialects, Java runtime selection, and adding languages.
 
-Pick only what you use:
+## Commands
 
-```sh
-brew install lua-language-server stylua
-brew install pyright ruff
-brew install marksman taplo shfmt
-brew install go gopls
-brew install rust-analyzer
-npm install -g typescript typescript-language-server prettier @fsouza/prettierd
-npm install -g bash-language-server vscode-langservers-extracted yaml-language-server
-```
+- `make setup` / `make tools`: install Homebrew prerequisites and bootstrap Neovim.
+- `make nvim`: link and bootstrap Neovim using already-installed runtimes.
+- `make link`: link Neovim, Helix and tmux configs without installing tools.
+- `make doctor`: print Neovim version and active config path.
+- Inside Neovim: `:Mason`, `:MasonToolsInstall`, `:ConformInfo`, `:checkhealth vim.lsp`.
 
-Inside Neovim:
+Leader is Space: `Space f` finds files, `Space b` switches buffers, `Space /`
+searches the project, `Space ca` opens code actions, `Space rn` renames,
+`Space lf` formats, and `Space tf` toggles format on save for the buffer.
 
-```vim
-:MobileLspMissing
-:checkhealth vim.lsp
-:ConformInfo
-```
-
-## Mobile Keybindings
-
-Leader is Space.
-
-```text
-Space ff   find files
-Space fg   live grep
-Space fb   buffers
-Space dd   diagnostic under cursor
-Space dn   next diagnostic
-Space dp   previous diagnostic
-Space la   code action
-Space lr   rename
-Space lf   format
-Space w    write
-Space q    quit
-```
-
-Termius quick keys worth adding:
-
-```text
-Esc
-Ctrl
-Tab
-Space
-:
-/
--
-_
-"
-'
-|
-```
+The on-demand code explorer adds `Space ci/co` for callers/callees, `Space ct/cT`
+for parent/child types, `Space s` for symbols, and `Space j/k` for history.
+`Space ?` searches normal-mode shortcut descriptions; `Space H` searches all modes.
 
 ## Helix Alternative
 
@@ -154,3 +100,32 @@ tmux attach -d -t agents || tmux new -s agents
 
 Phone disconnects then stop mattering. Reconnect with SSH, reattach tmux, and
 your editor session is still there.
+
+This repo also includes a mobile-friendly tmux config at `tmux/tmux.conf`.
+Install all editor links with:
+
+```sh
+cd ~/github/dotfiles
+make link
+```
+
+The tmux config enables mouse mode, so Termius can scroll tmux history with a
+normal swipe without manually entering copy mode. It also keeps the status line
+short and adds easy window navigation:
+
+```text
+Alt-h      previous window
+Alt-l      next window
+Alt-Left   previous window
+Alt-Right  next window
+Ctrl-b r   reload tmux config
+Ctrl-b |   split horizontally
+Ctrl-b -   split vertically
+```
+
+If mobile text selection gets awkward, temporarily toggle mouse mode:
+
+```sh
+tmux set -g mouse off
+tmux set -g mouse on
+```

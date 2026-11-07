@@ -1,33 +1,11 @@
 #!/usr/bin/env sh
 set -eu
-
-if ! command -v brew >/dev/null 2>&1; then
-  printf '%s\n' "Homebrew is required for native tools."
+repo_dir=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+if command -v brew >/dev/null 2>&1; then
+  brew bundle --file="$repo_dir/Brewfile"
+else
+  printf '%s\n' 'Install Neovim 0.11.3+, Git, ripgrep, Node.js/npm, Python 3, Go, a current JDK, a C compiler, curl, unzip, tar and gzip using your system package manager.'
+  printf '%s\n' 'Then run make nvim. See nvim/README.md for details.'
   exit 1
 fi
-
-if ! command -v npm >/dev/null 2>&1; then
-  printf '%s\n' "npm is required for Node-based language servers."
-  exit 1
-fi
-
-brew install \
-  lua-language-server \
-  marksman \
-  taplo \
-  gopls \
-  stylua \
-  shfmt \
-  ruff
-
-npm install -g \
-  typescript \
-  typescript-language-server \
-  bash-language-server \
-  vscode-langservers-extracted \
-  yaml-language-server \
-  pyright \
-  prettier \
-  @fsouza/prettierd
-
-printf '%s\n' "Done. In Neovim, run :MobileLspMissing, :checkhealth vim.lsp, and :ConformInfo."
+"$repo_dir/scripts/setup-nvim.sh"

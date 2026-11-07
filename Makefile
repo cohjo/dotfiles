@@ -1,6 +1,6 @@
-DOTFILES := $(HOME)/github/dotfiles
+DOTFILES := $(CURDIR)
 
-.PHONY: link editors tools doctor
+.PHONY: link editors tools nvim setup doctor
 
 link:
 	./scripts/link-editors.sh
@@ -9,6 +9,11 @@ editors: link
 
 tools:
 	./scripts/install-language-tools.sh
+
+nvim:
+	./scripts/setup-nvim.sh
+
+setup: tools
 
 doctor:
 	nvim --version | head -n 1
