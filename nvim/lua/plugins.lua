@@ -1,22 +1,29 @@
 return {
-  { 'folke/tokyonight.nvim', priority = 1000, config = function()
+  { 'folke/tokyonight.nvim', lazy = false, priority = 1000, config = function()
     require('tokyonight').setup({ style = 'night' })
     vim.cmd.colorscheme('tokyonight')
   end },
-  { 'nvim-mini/mini.nvim', config = function()
-    require('mini.pick').setup({
-      source = { show = function(buf, items, query)
-        require('mini.pick').default_show(buf, items, query, { show_icons = false })
-      end },
-      window = { config = vim.g.mobile and function()
-        return { width = math.max(1, vim.o.columns - 2), height = math.max(1, math.min(12, vim.o.lines - 4)) }
-      end or nil },
-      mappings = {
-      move_down = '<Down>', move_up = '<Up>', toggle_preview = '<Tab>', stop = '<Esc>',
-    } })
-    require('mini.extra').setup()
-    require('mini.pairs').setup()
-    require('mini.ai').setup()
+  { 'nvim-mini/mini.nvim', lazy = false, config = function()
+    -- Reserve the desktop status line on the first frame; no later layout jump.
+    vim.api.nvim_create_autocmd('InsertEnter', { once = true, callback = function()
+      require('mini.pairs').setup()
+    end })
+    local ai_ready = false
+    local function setup_ai()
+      if not ai_ready then require('mini.ai').setup(); ai_ready = true end
+    end
+    -- Normal-mode g[/g] motions also need MiniAi before their first use.
+    for _, key in ipairs({ 'g[', 'g]' }) do
+      vim.keymap.set('n', key, function()
+        local count = vim.v.count > 0 and tostring(vim.v.count) or ''
+        setup_ai()
+        vim.api.nvim_feedkeys(count .. key, 'mi', false)
+      end, { desc = 'Move to text object boundary' })
+    end
+    vim.api.nvim_create_autocmd('ModeChanged', {
+      pattern = { '*:no*', '*:v', '*:V', '*:\22' }, once = true,
+      callback = setup_ai,
+    })
     if not vim.g.mobile then require('mini.statusline').setup({ use_icons = false }) end
   end },
   { 'retran/meow.yarn.nvim', main = 'meow.yarn', lazy = true, cmd = 'MeowYarn',
@@ -48,7 +55,7 @@ return {
       F7 = 'F7', F8 = 'F8', F9 = 'F9', F10 = 'F10', F11 = 'F11', F12 = 'F12',
     } },
   } },
-  { 'lewis6991/gitsigns.nvim', event = { 'BufReadPre', 'BufNewFile' }, opts = {} },
+  { 'lewis6991/gitsigns.nvim', event = 'VeryLazy', cmd = 'Gitsigns', opts = {} },
   { 'saghen/blink.cmp', version = '1.*', event = 'InsertEnter', opts = {
     keymap = vim.g.mobile and {
       preset = 'default', ['<Tab>'] = { 'show', 'select_next', 'fallback' },
@@ -69,7 +76,8 @@ return {
     { 'b0o/SchemaStore.nvim', lazy = true },
     'WhoIsSethDaniel/mason-tool-installer.nvim',
   }, config = function()
-    local capabilities = require('blink.cmp').get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
+    require('diagnostics').setup()
+    local capabilities = require('completion_capabilities').get()
     -- Avoid macOS recursive file-watcher exhaustion on large workspaces.
     capabilities.workspace.didChangeWatchedFiles = { dynamicRegistration = false }
     vim.lsp.config('*', { capabilities = capabilities })

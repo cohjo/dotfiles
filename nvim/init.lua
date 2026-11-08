@@ -27,7 +27,6 @@ o.updatetime = 250
 o.timeoutlen = 400
 o.clipboard = 'unnamedplus'
 o.completeopt = 'menu,menuone,noselect'
-vim.diagnostic.config({ virtual_text = { spacing = 2 }, severity_sort = true, float = { border = 'rounded' } })
 vim.api.nvim_create_autocmd('BufReadPost', { callback = function(ev)
   local mark = vim.api.nvim_buf_get_mark(ev.buf, '"')
   if mark[1] > 0 and mark[1] <= vim.api.nvim_buf_line_count(ev.buf) then pcall(vim.api.nvim_win_set_cursor, 0, mark) end

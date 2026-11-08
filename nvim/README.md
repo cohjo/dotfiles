@@ -128,15 +128,31 @@ No plugin data, undo history or Mason packages were removed during migration.
 
 ## Performance policy
 
-Empty startup defers LSP setup, completion, Treesitter and formatting until their
-file/insert/save events. The schema catalog loads only for JSON/YAML servers.
-When all declared Mason tools are installed, automatic installer runs are skipped; missing tools still
-install when the language setup loads. The explicit bootstrap always checks all tools.
-The hierarchy explorer loads only on request and expands one level initially.
-Config file watchers are disabled; restart after changing configuration.
+Tokyo Night and the desktop status line initialize before the first draw so there
+is no theme flash or late layout change. Other Mini modules are initialized on
+use: pickers when opened, pairing on InsertEnter (before the first typed character),
+and text objects on the first operator/visual selection or `g[`/`g]` motion.
+
+Shortcut definitions use callbacks so registering a key does not import the LSP or
+diagnostic implementation. LSP registration stays before the first FileType event
+for reliable attachment; it advertises completion capabilities without importing
+Blink's UI. The declaration is parity-checked against the pinned Blink version.
+Completion initializes on InsertEnter. Treesitter stays on file-read events so
+highlighting is ready before code is displayed. Git signs initialize after startup
+with an explicit command fallback; the sign column is reserved from the beginning.
+
+Formatting loads on save/request, schemas only for JSON/YAML servers, and the
+hierarchy only on request. Pickers apply their final keyboard/window configuration
+before opening. There are no arbitrary idle warmup timers for these features.
+When all declared Mason tools are installed, automatic installer runs are skipped;
+the explicit bootstrap always checks all tools. Config file watchers are disabled;
+restart after changing configuration.
 
 Startup timing does not measure typing, project indexing or format-on-save latency.
 Language-server cost depends on the language and project; only relevant servers run.
+Run `DOTFILES_BOOTSTRAP=1 nvim --headless '+luafile tests/deferred.lua'` to check
+first-use editing, picker behavior, theme readiness and completion compatibility.
+Also run it with `NVIM_MOBILE=1` for the phone profile.
 
 ## Review Git changes and agent work
 

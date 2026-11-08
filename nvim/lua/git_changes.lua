@@ -30,7 +30,7 @@ function M.status()
         i = i + 1
       end
       if #items == 0 then vim.notify('Git working tree is clean'); return end
-      local pick = require('mini.pick')
+      local pick = require('features').pick()
       local function preview(buf, item)
         -- Each preview is asynchronous; ignore stale results after moving selection.
         local token = {}

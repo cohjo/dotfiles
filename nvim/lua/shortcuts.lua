@@ -65,7 +65,7 @@ function M.show_daily()
       text = string.format('%-11s  %-8s  %s', entry[2], entry[3], entry[4]),
     })
   end
-  require('mini.pick').start({ source = {
+  require('features').pick().start({ source = {
     name = 'Daily keys · type to search · Enter runs · Esc closes',
     items = items,
     choose = function(item)

@@ -18,7 +18,6 @@ function M.setup()
   o.pumheight = 6
   o.mouse = 'a'
   o.clipboard = '' -- no remote OS clipboard calls; use the client's copy/paste.
-  vim.diagnostic.config({ virtual_text = false, signs = false })
   -- Avoid formatting a whole file or blocking a short phone edit on save.
   local function disable_format(ev)
     if vim.b[ev.buf].disable_autoformat == nil then vim.b[ev.buf].disable_autoformat = true end

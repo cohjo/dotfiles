@@ -68,7 +68,7 @@ local ok, err = pcall(function()
   vim.w[git_preview].gitsigns_preview = 'hunk'
   require('popups').dismiss()
   check(not vim.api.nvim_win_is_valid(git_preview), 'Escape dismisses Git hunk previews')
-  local pick = require('mini.pick')
+  local pick = require('features').pick()
   vim.defer_fn(function() vim.api.nvim_input('<Esc>') end, 100)
   pick.start({ source = { items = { 'one', 'two' } } })
   check(not pick.is_picker_active(), 'Escape closes picker event loop')
