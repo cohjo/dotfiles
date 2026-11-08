@@ -181,3 +181,8 @@ preview must not query a destroyed window. It is loaded with the plugin, rather
 than editing downloaded plugin files, so it survives fresh-machine installation.
 Regression check: `DOTFILES_BOOTSTRAP=1 nvim --headless '+luafile tests/popups.lua'`
 from the repository root. Run with `NVIM_MOBILE=1` to also exercise the mobile profile.
+
+In `nvimm`, save/exit actions avoid the phone's symbols keyboard: `Space w` saves
+(and prompts for a new filename), `Space a` saves as, `Space qq` quits a window,
+`Space qs` saves and quits, `Space qa` quits all, and `Space qw` saves all and quits.
+Quit actions protect unsaved work. These are also in the mobile daily cheatsheet.

@@ -45,6 +45,11 @@ M.daily = {
 
 if vim.g.mobile then
   vim.list_extend(M.daily, {
+    { ' a', 'Space a', 'Files', 'Save as (filename prompt)' },
+    { ' qq', 'Space q q', 'Exit', 'Quit current window safely' },
+    { ' qs', 'Space q s', 'Exit', 'Save and quit current window' },
+    { ' qa', 'Space q a', 'Exit', 'Quit all windows safely' },
+    { ' qw', 'Space q w', 'Exit', 'Save all and quit' },
     { ' z', 'Space z', 'Mobile', 'Page down' },
     { ' u', 'Space u', 'Mobile', 'Page up' },
     { ' n', 'Space n', 'Mobile', 'Toggle line numbers' },

@@ -42,3 +42,4 @@ end
 vim.opt.rtp:prepend(lazy)
 require('lazy').setup('plugins', { change_detection = { enabled = false }, rocks = { enabled = false } })
 require('keymaps')
+if vim.g.mobile then require('mobile').setup_actions() end

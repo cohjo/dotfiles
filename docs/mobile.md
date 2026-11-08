@@ -58,6 +58,31 @@ Language servers execute on the host. You retain definitions, references, rename
 and diagnostics for supported languages. Do the full bootstrap on that host first;
 mobile editing does not automatically run package installers.
 
+## Save and exit without the symbols keyboard
+
+First leave insert mode with Esc or `jk`. Then tap these normal-mode keys in
+sequence; all letters are lowercase:
+
+| Keys | Action |
+| --- | --- |
+| `Space w` | Save; prompt for a filename if the buffer is new |
+| `Space a` | Save as: prompt for another filename |
+| `Space q q` | Quit the current window, protecting unsaved work |
+| `Space q s` | Save the current file and quit its window |
+| `Space q a` | Quit all windows, protecting unsaved work |
+| `Space q w` | Save all modified files, then quit all windows |
+| `Space x` | Close the current buffer, protecting unsaved work |
+| `Space m` | Search the daily essentials cheatsheet |
+
+Save-and-quit stops if saving fails or you cancel a filename prompt. Save-all
+prompts for each unnamed modified file. Cancelling can leave earlier files saved,
+but does not quit. Existing files are not force-overwritten by Save As, and none
+of these shortcuts force-discards edits. If quitting would lose changes, Neovim
+shows a warning and keeps the editor open. With splits, quitting one window can
+leave the editor running; `Space q a` / `Space q w` are the whole-editor actions.
+No insert-mode Space mappings are installed, so typing spaces in code is normal.
+These save/exit overrides apply only to `nvimm`; desktop `nvim` is unchanged.
+
 ## iPhone ergonomics
 
 Start in portrait at a readable font size (roughly 14–16 pt, adjusted for your

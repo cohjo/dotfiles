@@ -35,4 +35,19 @@ function M.setup()
   map('i', 'jk', '<Esc>', { desc = 'Leave insert mode (mobile)' })
 end
 
+-- Applied after the shared keymaps so the mobile save key can handle new files.
+function M.setup_actions()
+  local function map(key, action, description)
+    vim.keymap.set('n', '<leader>' .. key, function()
+      action(require('mobile_actions'))
+    end, { desc = description, silent = true })
+  end
+  map('w', function(a) a.save() end, 'Save file (prompt for a new filename)')
+  map('a', function(a) a.save(nil, nil, true) end, 'Save file as')
+  map('qq', function(a) a.quit(false) end, 'Quit current window safely')
+  map('qs', function(a) a.save_quit() end, 'Save and quit current window')
+  map('qa', function(a) a.quit(true) end, 'Quit all windows safely')
+  map('qw', function(a) a.save_all_quit() end, 'Save all and quit')
+end
+
 return M
