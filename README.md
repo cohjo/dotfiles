@@ -52,7 +52,7 @@ connections/dialects, Java runtime selection, and adding languages.
 
 - `make setup` / `make tools`: install Homebrew prerequisites and bootstrap Neovim.
 - `make nvim`: link and bootstrap Neovim using already-installed runtimes.
-- `make link`: link Neovim, Helix and tmux configs without installing tools.
+- `make link`: link Neovim and tmux configs without installing tools.
 - `make doctor`: print Neovim version and active config path.
 - Inside Neovim: `:Mason`, `:MasonToolsInstall`, `:ConformInfo`, `:checkhealth vim.lsp`.
 
@@ -64,35 +64,9 @@ The on-demand code explorer adds `Space ci/co` for callers/callees, `Space ct/cT
 for parent/child types, `Space s` for symbols, and `Space j/k` for history.
 `Space ?` searches normal-mode shortcut descriptions; `Space H` searches all modes.
 
-## Helix Alternative
-
-Helix is likely the better pure mobile editor if you are willing to learn its
-selection-first modal model. It has built-in language support, tree-sitter
-integration, LSP integration, pickers, and formatting configuration with far
-less plugin machinery.
-
-Install:
-
-```sh
-brew install helix
-```
-
-Symlink the included config:
-
-```sh
-mkdir -p ~/.config
-ln -s /Users/conorjohnston/github/dotfiles/helix ~/.config/helix
-```
-
-Check language tooling:
-
-```sh
-hx --health
-```
-
 ## Tmux Pairing
 
-Use either editor inside tmux:
+Use Neovim inside tmux:
 
 ```sh
 tmux attach -d -t agents || tmux new -s agents

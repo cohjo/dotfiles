@@ -23,13 +23,9 @@ backup_if_needed() {
 backup_if_needed "$config_home/nvim"
 ln -s "$dotfiles/nvim" "$config_home/nvim"
 
-backup_if_needed "$config_home/helix"
-ln -s "$dotfiles/helix" "$config_home/helix"
-
 backup_if_needed "$HOME/.tmux.conf"
 ln -s "$dotfiles/tmux/tmux.conf" "$HOME/.tmux.conf"
 
 printf '%s\n' "Linked:"
 printf '  %s -> %s\n' "$config_home/nvim" "$dotfiles/nvim"
-printf '  %s -> %s\n' "$config_home/helix" "$dotfiles/helix"
 printf '  %s -> %s\n' "$HOME/.tmux.conf" "$dotfiles/tmux/tmux.conf"
