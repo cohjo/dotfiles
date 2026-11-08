@@ -1,0 +1,21 @@
+{
+  "family": "Berkeley Mono",
+  "fonts": [
+    {
+      "file": "BerkeleyMono-Regular.otf",
+      "sha256": "05d13a73503090defea3968ee9419d4303d525aba4037b89ade19b883c61aea5"
+    },
+    {
+      "file": "BerkeleyMono-Oblique.otf",
+      "sha256": "4244781d265da83b1f7b8b676cbc27d1fb31570b5663f667688bfcc683299968"
+    },
+    {
+      "file": "BerkeleyMono-Bold.otf",
+      "sha256": "0bd5343693cc63719102d70c2bec5da6cedf1728ca9d5cdb80c51406f6912c8e"
+    },
+    {
+      "file": "BerkeleyMono-Bold-Oblique.otf",
+      "sha256": "9941e22bce02da7d170d6c6dd0131354d6ae915870cc45fa4e07fc0c3cdc3d0d"
+    }
+  ]
+}

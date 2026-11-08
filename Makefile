@@ -1,6 +1,6 @@
 PROFILE ?= core
 
-.PHONY: setup configure link editors tools nvim doctor containers-start containers-stop containers-status
+.PHONY: setup configure link editors tools nvim doctor containers-start containers-stop containers-status fonts
 setup:
 	./scripts/setup-dev.sh "$(PROFILE)"
 configure:
@@ -21,3 +21,6 @@ containers-stop:
 	./scripts/containers.sh stop
 containers-status:
 	./scripts/containers.sh status
+
+fonts:
+	python3 ./scripts/install-fonts.py

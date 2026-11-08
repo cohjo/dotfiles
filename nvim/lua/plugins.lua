@@ -4,18 +4,30 @@ return {
     vim.cmd.colorscheme('tokyonight')
   end },
   { 'nvim-mini/mini.nvim', config = function()
-    require('mini.pick').setup({ mappings = {
+    require('mini.pick').setup({
+      source = { show = function(buf, items, query)
+        require('mini.pick').default_show(buf, items, query, { show_icons = false })
+      end },
+      window = { config = vim.g.mobile and function()
+        return { width = math.max(1, vim.o.columns - 2), height = math.max(1, math.min(12, vim.o.lines - 4)) }
+      end or nil },
+      mappings = {
       move_down = '<Down>', move_up = '<Up>', toggle_preview = '<Tab>',
     } })
     require('mini.extra').setup()
     require('mini.pairs').setup()
     require('mini.ai').setup()
-    require('mini.statusline').setup({ use_icons = false })
+    if not vim.g.mobile then require('mini.statusline').setup({ use_icons = false }) end
   end },
   { 'retran/meow.yarn.nvim', main = 'meow.yarn', lazy = true, cmd = 'MeowYarn',
     dependencies = { 'MunifTanjim/nui.nvim' },
     opts = {
       expand_depth = 1,
+      window = { width = vim.g.mobile and 0.96 or 0.8 },
+      hierarchies = {
+        type_hierarchy = { icons = { class = 'C', struct = 'S', interface = 'I', default = '' } },
+        call_hierarchy = { icons = { method = 'm', func = 'f', variable = 'v', default = '' } },
+      },
       mappings = {
         preview_scroll_down = '<PageDown>', preview_scroll_up = '<PageUp>',
         toggle_select = 'm', send_to_quickfix = 'Q',
@@ -23,13 +35,29 @@ return {
       quickfix = { use_trouble = false },
     },
   },
-  { 'folke/which-key.nvim', event = 'VeryLazy', opts = {} },
+  { 'folke/which-key.nvim', cond = not vim.g.mobile, event = 'VeryLazy', opts = {
+    icons = { mappings = false, keys = {
+      Up = 'Up', Down = 'Down', Left = 'Left', Right = 'Right', C = 'Ctrl+', M = 'Alt+', D = 'Cmd+', S = 'Shift+',
+      CR = 'Enter', Esc = 'Esc', Tab = 'Tab', Space = 'Space', BS = 'Backspace', Del = 'Delete',
+      ScrollWheelDown = 'WheelDown', ScrollWheelUp = 'WheelUp', NL = 'Enter',
+      F1 = 'F1', F2 = 'F2', F3 = 'F3', F4 = 'F4', F5 = 'F5', F6 = 'F6',
+      F7 = 'F7', F8 = 'F8', F9 = 'F9', F10 = 'F10', F11 = 'F11', F12 = 'F12',
+    } },
+  } },
   { 'lewis6991/gitsigns.nvim', event = { 'BufReadPre', 'BufNewFile' }, opts = {} },
   { 'saghen/blink.cmp', version = '1.*', event = 'InsertEnter', opts = {
-    keymap = { preset = 'default' },
-    completion = { documentation = { auto_show = true } },
+    keymap = vim.g.mobile and {
+      preset = 'default', ['<Tab>'] = { 'show', 'select_next', 'fallback' },
+      ['<CR>'] = { 'accept', 'fallback' }, ['<Esc>'] = { 'hide', 'fallback' },
+    } or { preset = 'default' },
+    completion = {
+      menu = { auto_show = not vim.g.mobile, max_height = vim.g.mobile and 6 or 10,
+        draw = { columns = { { 'label', 'label_description', gap = 1 } } },
+      },
+      documentation = { auto_show = not vim.g.mobile },
+    },
     fuzzy = { implementation = 'lua' },
-    signature = { enabled = true },
+    signature = { enabled = not vim.g.mobile },
   } },
   { 'neovim/nvim-lspconfig', event = { 'BufReadPre', 'BufNewFile' }, dependencies = {
     { 'mason-org/mason.nvim', cmd = { 'Mason', 'MasonInstall', 'MasonUpdate', 'MasonLog' }, opts = {} },
@@ -109,7 +137,7 @@ return {
     end
     require('mason-tool-installer').setup({
       ensure_installed = tools.packages(), auto_update = false,
-      run_on_start = missing_tools and vim.env.DOTFILES_BOOTSTRAP ~= '1', start_delay = 1000,
+      run_on_start = not vim.g.mobile and missing_tools and vim.env.DOTFILES_BOOTSTRAP ~= '1', start_delay = 1000,
       integrations = { ['mason-lspconfig'] = false },
     })
   end },

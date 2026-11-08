@@ -31,6 +31,19 @@ credentials/aliases are retained outside Git. Container VMs are started explicit
 not on shell startup. See [development setup and recovery](docs/development.md)
 for requirements, profiles, version policy and machine-specific overrides.
 
+## Fonts and iPhone editing
+
+This private repository includes the owner's four licensed Berkeley Mono faces.
+`make setup` installs them; `make fonts` installs/rechecks them separately. Keep the
+repository private. In Rex choose **Settings → Terminal → Typography → Berkeley
+Mono** once: terminal Neovim and the shell inherit the client's font. Neovim also
+sets Berkeley Mono for GUI frontends, and does not require a Nerd Font. See
+[font setup](fonts/README.md).
+
+Run **`nvimm`** on the host for phone-friendly editing with the same tools and keys:
+wrapped lines, narrow-screen pickers, quiet diagnostics and manual completion.
+Desktop `nvim` stays as before. See [iPhone workflow and key bar](docs/mobile.md).
+
 ## Toolchain
 
 [nvim/lua/toolchain.lua](nvim/lua/toolchain.lua) declares all language servers,

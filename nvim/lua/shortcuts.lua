@@ -42,6 +42,15 @@ M.daily = {
   { ' ?', 'Space ?', 'Help', 'Search every normal-mode mapping' },
 }
 
+if vim.g.mobile then
+  vim.list_extend(M.daily, {
+    { ' z', 'Space z', 'Mobile', 'Page down' },
+    { ' u', 'Space u', 'Mobile', 'Page up' },
+    { ' n', 'Space n', 'Mobile', 'Toggle line numbers' },
+    { ' tf', 'Space tf', 'Mobile', 'Toggle format on save for this buffer' },
+  })
+end
+
 function M.show_daily()
   local items = {}
   for _, entry in ipairs(M.daily) do

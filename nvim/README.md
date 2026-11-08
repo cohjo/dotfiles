@@ -152,3 +152,12 @@ for external edits; Neovim retains its normal protection for unsaved buffers.
 Existing keys: `]h`/`[h` next/previous hunk in the file, `Space hp` preview hunk,
 `Space hs` stage hunk, and `Space hr` reset hunk (discards that hunk's changes).
 The pickers themselves only inspect/open files and perform no staging or resets.
+
+## Font and mobile profile
+
+Berkeley Mono is the GUI default; terminal Neovim inherits the terminal client's
+font. Select it in Rex's Typography settings. The UI uses text labels without
+requiring a patched Nerd Font. See [font setup](../fonts/README.md).
+
+Use `nvimm` for the same config with a compact phone interface. See
+[mobile editing](../docs/mobile.md) for behavior, keys and connection advice.

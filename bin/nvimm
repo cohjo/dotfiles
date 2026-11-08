@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+# Same runtime, plugins, language tools and keymaps; compact interface for a phone.
+exec env NVIM_MOBILE=1 nvim "$@"

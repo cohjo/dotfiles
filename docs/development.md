@@ -26,6 +26,7 @@ This is intended for a personal development account, not a shared production hos
 | `make configure` | Link/configure using system packages already installed |
 | `make doctor` | Check core commands, links, runtimes and Mason packages |
 | `make doctor PROFILE=containers,data` | Also check optional profiles |
+| `make fonts` | Install/check the licensed Berkeley Mono faces |
 | `make nvim` | Original Neovim-only bootstrap with existing prerequisites |
 | `make link` | Link shell, runtime, Git defaults, Neovim and tmux; do not install packages |
 
@@ -157,3 +158,11 @@ Installed tools and old environment managers are not deleted by setup or recover
 Official references: [mise shims](https://mise.jdx.dev/dev-tools/shims.html),
 [uv](https://docs.astral.sh/uv/), [Colima](https://github.com/abiosoft/colima),
 and [Miniforge](https://github.com/conda-forge/miniforge).
+
+## Fonts and mobile editing
+
+The licensed font files make this a private personal repository. Setup installs
+them unchanged for the current user. Select Berkeley Mono in Rex's client font
+settings; that choice applies to both the shell and terminal Neovim. It is not
+a server Lua setting. See [fonts](../fonts/README.md). `nvimm` is linked into
+`~/.local/bin` for phone editing; [the mobile guide](mobile.md) explains the profile.

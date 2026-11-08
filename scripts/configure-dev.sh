@@ -6,6 +6,7 @@ for tool in python3 git mise uv; do
   command -v "$tool" >/dev/null 2>&1 || { printf 'Missing %s; run make setup first.\n' "$tool" >&2; exit 1; }
 done
 python3 "$repo_dir/scripts/link-dev.py"
+python3 "$repo_dir/scripts/install-fonts.py"
 # Explicit trusted global config; no reliance on a caller's project configuration.
 cd "$HOME"
 export MISE_GLOBAL_CONFIG_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/mise/config.toml"

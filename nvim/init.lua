@@ -1,3 +1,4 @@
+vim.g.mobile = vim.env.NVIM_MOBILE == "1"
 vim.filetype.add({
   filename = {
     ['docker-compose.yml'] = 'yaml.docker-compose', ['docker-compose.yaml'] = 'yaml.docker-compose',
@@ -8,6 +9,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 local o = vim.opt
 o.termguicolors = true
+o.guifont = "Berkeley Mono:h16"
 o.number = true
 o.signcolumn = 'yes'
 o.wrap = false
@@ -31,6 +33,7 @@ vim.api.nvim_create_autocmd('BufReadPost', { callback = function(ev)
   if mark[1] > 0 and mark[1] <= vim.api.nvim_buf_line_count(ev.buf) then pcall(vim.api.nvim_win_set_cursor, 0, mark) end
 end })
 vim.api.nvim_create_autocmd('TextYankPost', { callback = function() vim.highlight.on_yank() end })
+if vim.g.mobile then require('mobile').setup() end
 local lazy = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.uv.fs_stat(lazy) then
   vim.fn.system({ 'git', 'clone', '--filter=blob:none', '--branch=stable', 'https://github.com/folke/lazy.nvim.git', lazy })

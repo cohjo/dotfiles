@@ -66,6 +66,7 @@ for name in ['zshenv', 'zprofile', 'zshrc']:
     link(repo / 'shell' / name, home / f'.{name}')
 link(repo / 'mise/config.toml', config / 'mise/config.toml')
 link(repo / 'uv/uv.toml', config / 'uv/uv.toml')
+link(repo / 'bin/nvimm', home / '.local/bin/nvimm')
 # Keep identity, credentials, signing and existing config; append a defaults include once.
 includes = subprocess.run(['git', 'config', '--global', '--get-all', 'include.path'], capture_output=True, text=True).stdout.splitlines()
 include = str(repo / 'git/config')
