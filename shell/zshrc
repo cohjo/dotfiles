@@ -1,0 +1,52 @@
+# Small interactive shell: no framework, network calls, or runtime auto-installs.
+HISTFILE="${XDG_STATE_HOME:-$HOME/.local/state}/zsh/history"
+mkdir -p "${HISTFILE:h}"
+HISTSIZE=50000
+SAVEHIST=50000
+setopt HIST_IGNORE_ALL_DUPS HIST_IGNORE_SPACE SHARE_HISTORY EXTENDED_HISTORY
+setopt AUTO_CD INTERACTIVE_COMMENTS
+bindkey -e
+bindkey '^[[A' history-beginning-search-backward
+bindkey '^[[B' history-beginning-search-forward
+# Cache completion metadata rather than scanning every new terminal.
+typeset -U fpath
+for _dotfiles_completions in /opt/homebrew/share/zsh/site-functions /usr/local/share/zsh/site-functions "$HOME/.local/share/zsh/site-functions"; do
+  [[ -d "$_dotfiles_completions" ]] && fpath=("$_dotfiles_completions" $fpath)
+done
+unset _dotfiles_completions
+autoload -Uz compinit
+_dotfiles_zcomp="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
+mkdir -p "${_dotfiles_zcomp:h}"
+if [[ -n "$_dotfiles_zcomp"(#qN.mh-24) ]]; then
+  compinit -C -d "$_dotfiles_zcomp"
+else
+  compinit -d "$_dotfiles_zcomp"
+fi
+unset _dotfiles_zcomp
+PROMPT='%F{cyan}%n@%m%f %F{blue}%~%f %# '
+alias v=nvim
+alias ll='ls -lah'
+alias gs='git status --short --branch'
+alias gd='git diff'
+alias gl='git log --oneline --decorate -15'
+alias ..='cd ..'
+# mise shims in .zshenv resolve project runtimes on invocation.
+# No per-prompt activation subprocess; use mise exec for project environment variables.
+# Conda costs nothing until invoked. Never auto-activate its base environment.
+conda() {
+  local prefix
+  for prefix in "$HOME/miniforge3" "$HOME/miniconda3" /opt/homebrew/Caskroom/miniforge/base /usr/local/Caskroom/miniforge/base; do
+    if [[ -r "$prefix/etc/profile.d/conda.sh" ]]; then
+      unfunction conda
+      source "$prefix/etc/profile.d/conda.sh"
+      conda "$@"
+      return
+    fi
+  done
+  print -u2 'Conda is not installed. Run make setup PROFILE=data in your dotfiles.'
+  return 127
+}
+[[ -r "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/local.zsh" ]] && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/local.zsh"
+[[ -r "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
+
+true

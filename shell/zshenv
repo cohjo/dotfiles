@@ -1,0 +1,14 @@
+# No subprocesses: this file also runs in non-interactive Zsh/agent sessions.
+export EDITOR=nvim
+export VISUAL=nvim
+export PAGER=less
+export LESS='-FRX'
+typeset -U path PATH
+[[ -d /opt/homebrew/bin ]] && path=(/opt/homebrew/bin /opt/homebrew/sbin $path)
+[[ -d /home/linuxbrew/.linuxbrew/bin ]] && path=(/home/linuxbrew/.linuxbrew/bin $path)
+path=("$HOME/.local/bin" "${XDG_DATA_HOME:-$HOME/.local/share}/mise/shims" $path)
+[[ -r "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/runtime.env.zsh" ]] && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/runtime.env.zsh"
+# Machine-only environment values are never copied into the repository.
+[[ -r "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/env.local.zsh" ]] && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/env.local.zsh"
+
+true

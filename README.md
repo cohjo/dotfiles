@@ -14,15 +14,22 @@ cd dotfiles
 make setup
 ```
 
-With Homebrew installed, this installs the system runtimes from `Brewfile`,
-backs up an existing Neovim config, links this repo's config, restores locked
-plugin revisions, and installs all declared Mason tools and Treesitter parsers.
-On macOS, install Apple's command line tools first (`xcode-select --install`).
+`make setup` now prepares the shell, core CLI tools, managed language runtimes,
+and Neovim—not just the editor. It supports Homebrew and Debian/Ubuntu apt.
+On macOS, install Homebrew and Apple's command line tools first.
 
-On Linux, install the prerequisites listed in [nvim/README.md](nvim/README.md)
-with your package manager, then run `make nvim`. You can also use `make nvim`
-on a Mac whose runtimes are already installed. The command is safe to rerun;
-it exits with a failure if tool installation fails.
+```sh
+make setup PROFILE=containers       # Colima + Docker CLI on macOS
+make setup PROFILE=data             # optional Miniforge/Conda
+make setup PROFILE=containers,data  # combine profiles
+make doctor PROFILE=containers
+```
+
+Core defaults use **uv for Python**, **mise for Node/Go/Java/Neovim**, a lean Zsh
+configuration, Git defaults and tmux. Existing configs are backed up, and local
+credentials/aliases are retained outside Git. Container VMs are started explicitly,
+not on shell startup. See [development setup and recovery](docs/development.md)
+for requirements, profiles, version policy and machine-specific overrides.
 
 ## Toolchain
 
@@ -50,10 +57,11 @@ connections/dialects, Java runtime selection, and adding languages.
 
 ## Commands
 
-- `make setup` / `make tools`: install Homebrew prerequisites and bootstrap Neovim.
+- `make setup` / `make tools`: bootstrap the development environment (`PROFILE=...` optional).
 - `make nvim`: link and bootstrap Neovim using already-installed runtimes.
-- `make link`: link Neovim and tmux configs without installing tools.
-- `make doctor`: print Neovim version and active config path.
+- `make configure`: configure existing system tools, runtimes, shell and editor.
+- `make link`: link configurations without installing tools.
+- `make doctor`: check tools, runtime versions, links and Neovim packages.
 - Inside Neovim: `:Mason`, `:MasonToolsInstall`, `:ConformInfo`, `:checkhealth vim.lsp`.
 
 Leader is Space: `Space f` finds files, `Space b` switches buffers, `Space /`

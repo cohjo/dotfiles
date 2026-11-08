@@ -101,8 +101,9 @@ No database connections or query execution commands are configured automatically
 
 ## Fresh-machine installation
 
-Run `make setup` from the repository root on a Homebrew machine; it installs
-system runtimes and runs the Neovim bootstrap. With prerequisites already
+Run `make setup` from the repository root to install core development tools,
+managed runtimes, shell settings and the Neovim bootstrap. See
+[development setup](../docs/development.md) for supported platforms and profiles. With prerequisites already
 installed, run `make nvim` instead. The checkout can live anywhere.
 Existing configs are backed up before linking. Both commands restore locked
 plugin revisions, wait for Mason tools, and install parsers before finishing.

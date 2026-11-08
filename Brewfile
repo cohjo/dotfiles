@@ -1,8 +1,11 @@
-# System runtimes only; editor language servers/formatters live in Mason.
-brew "neovim"
+# Core CLI tools. mise owns Node/Go/Java; uv owns Python.
+brew "python"
 brew "git"
 brew "ripgrep"
-brew "node"
-brew "python"
-brew "go"
-brew "openjdk"
+brew "fd"
+brew "jq"
+brew "fzf"
+brew "tmux"
+brew "gh"
+brew "mise"
+brew "uv"

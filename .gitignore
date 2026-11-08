@@ -1,0 +1,8 @@
+.DS_Store
+*.local
+*.local.zsh
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc

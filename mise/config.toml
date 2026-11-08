@@ -1,0 +1,10 @@
+# Global fallback release lines; projects may pin exact versions in mise.toml.
+[tools]
+# Treesitter configuration targets Neovim 0.11.
+neovim = "0.11.6"
+node = "24"
+go = "1.25"
+java = "temurin-25"
+
+[settings]
+auto_install = false

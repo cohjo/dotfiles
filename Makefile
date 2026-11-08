@@ -1,20 +1,23 @@
-DOTFILES := $(CURDIR)
+PROFILE ?= core
 
-.PHONY: link editors tools nvim setup doctor
-
+.PHONY: setup configure link editors tools nvim doctor containers-start containers-stop containers-status
+setup:
+	./scripts/setup-dev.sh "$(PROFILE)"
+configure:
+	./scripts/configure-dev.sh
 link:
+	python3 ./scripts/link-dev.py
 	./scripts/link-editors.sh
-
 editors: link
-
 tools:
-	./scripts/install-language-tools.sh
-
+	./scripts/setup-dev.sh "$(PROFILE)"
 nvim:
 	./scripts/setup-nvim.sh
-
-setup: tools
-
 doctor:
-	nvim --version | head -n 1
-	nvim --headless "+lua print(vim.fn.stdpath('config'))" +qa
+	./scripts/doctor.sh "$(PROFILE)"
+containers-start:
+	./scripts/containers.sh start
+containers-stop:
+	./scripts/containers.sh stop
+containers-status:
+	./scripts/containers.sh status

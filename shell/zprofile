@@ -1,0 +1,4 @@
+# PATH is prepared by .zshenv; interactive configuration lives in .zshrc.
+[[ -r "$HOME/.zprofile.local" ]] && source "$HOME/.zprofile.local"
+
+true
