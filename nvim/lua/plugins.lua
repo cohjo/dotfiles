@@ -12,7 +12,7 @@ return {
         return { width = math.max(1, vim.o.columns - 2), height = math.max(1, math.min(12, vim.o.lines - 4)) }
       end or nil },
       mappings = {
-      move_down = '<Down>', move_up = '<Up>', toggle_preview = '<Tab>',
+      move_down = '<Down>', move_up = '<Up>', toggle_preview = '<Tab>', stop = '<Esc>',
     } })
     require('mini.extra').setup()
     require('mini.pairs').setup()
@@ -20,6 +20,10 @@ return {
     if not vim.g.mobile then require('mini.statusline').setup({ use_icons = false }) end
   end },
   { 'retran/meow.yarn.nvim', main = 'meow.yarn', lazy = true, cmd = 'MeowYarn',
+    config = function(_, opts)
+      require('meow.yarn').setup(opts)
+      require('hierarchy_compat').setup()
+    end,
     dependencies = { 'MunifTanjim/nui.nvim' },
     opts = {
       expand_depth = 1,
@@ -30,7 +34,7 @@ return {
       },
       mappings = {
         preview_scroll_down = '<PageDown>', preview_scroll_up = '<PageUp>',
-        toggle_select = 'm', send_to_quickfix = 'Q',
+        toggle_select = 'm', clear_selection = 'M', send_to_quickfix = 'Q', quit = '<Esc>',
       },
       quickfix = { use_trouble = false },
     },
@@ -48,8 +52,8 @@ return {
   { 'saghen/blink.cmp', version = '1.*', event = 'InsertEnter', opts = {
     keymap = vim.g.mobile and {
       preset = 'default', ['<Tab>'] = { 'show', 'select_next', 'fallback' },
-      ['<CR>'] = { 'accept', 'fallback' }, ['<Esc>'] = { 'hide', 'fallback' },
-    } or { preset = 'default' },
+      ['<CR>'] = { 'accept', 'fallback' }, ['<Esc>'] = { function(cmp) cmp.hide(); return false end, 'fallback' },
+    } or { preset = 'default', ['<Esc>'] = { function(cmp) cmp.hide(); return false end, 'fallback' } },
     completion = {
       menu = { auto_show = not vim.g.mobile, max_height = vim.g.mobile and 6 or 10,
         draw = { columns = { { 'label', 'label_description', gap = 1 } } },

@@ -39,6 +39,7 @@ M.daily = {
   { ' gd', 'Space gd', 'Git', 'Browse unstaged diffs by hunk' },
   { ' gD', 'Space gD', 'Git', 'Browse staged diffs by hunk' },
   { ' hp', 'Space hp', 'Git', 'Preview changed hunk' },
+  { '<Esc>', 'Esc', 'Help', 'Close popup and clear search highlighting' },
   { ' ?', 'Space ?', 'Help', 'Search every normal-mode mapping' },
 }
 

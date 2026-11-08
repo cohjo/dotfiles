@@ -55,7 +55,7 @@ The meow.yarn hierarchy popup loads on demand and queries your language server.
 Use `j/k` to move, `l/h` to expand/collapse, Enter to jump, `/` to filter,
 `K/J` to explore callers/callees (or parent/child types) from the selected node,
 and Backspace to retrace that exploration. `m` marks nodes, `Q` sends them to
-quickfix, PageUp/PageDown scroll the source preview, and `q` closes the popup.
+quickfix, PageUp/PageDown scroll the source preview, and `Esc` or `q` closes the popup. `M` clears marked nodes.
 Space remains available for your leader shortcuts, including `Space ?`.
 
 Availability depends on the language server: references, calls and type
@@ -161,3 +161,23 @@ requiring a patched Nerd Font. See [font setup](../fonts/README.md).
 
 Use `nvimm` for the same config with a compact phone interface. See
 [mobile editing](../docs/mobile.md) for behavior, keys and connection advice.
+
+## Escape and hierarchy troubleshooting
+
+Escape closes the hierarchy (including while a request is pending), file/Git/
+symbol/shortcut pickers, LSP hover/diagnostic floats, Git hunk previews, and Lazy.
+Mason and Which-key already supply Escape handling; in Mason search/filter modes
+it first cancels that mode. Escape hides autocomplete and still leaves insert mode.
+Hierarchy search likewise cancels its search prompt before closing the tree.
+Normal Escape also clears search highlighting, without closing editor splits.
+
+`Call Hierarchy: No symbol found under cursor` is an empty server result, not an
+editor failure. Put the cursor on a function/method name at its definition or call.
+Whitespace, comments and some language constructs have no call hierarchy. Use `gr`
+for references or `Space s` for symbols if that server cannot resolve the item.
+
+The dotfiles carry a small lifetime guard for the pinned hierarchy plugin: a queued
+preview must not query a destroyed window. It is loaded with the plugin, rather
+than editing downloaded plugin files, so it survives fresh-machine installation.
+Regression check: `DOTFILES_BOOTSTRAP=1 nvim --headless '+luafile tests/popups.lua'`
+from the repository root. Run with `NVIM_MOBILE=1` to also exercise the mobile profile.
