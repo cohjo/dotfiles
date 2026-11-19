@@ -37,7 +37,8 @@ and no new network ports or remote services are opened by this bootstrap.
 - Long lines wrap at word boundaries, with indentation retained. `j`/`k` move by
   displayed lines; numbered motions still use logical lines.
 - Line numbers, sign gutter and status bar are hidden; `Space n` toggles numbers.
-- Diagnostics remain available with `Space d` / `Space D`, without inline text.
+- Diagnostics remain available with `Space d` / `Space D`, and Git blame with
+  `Space gb` (or `Space tb` to toggle inline blame), without default inline text.
 - File, buffer, symbol, Git and cheatsheet pickers retain your existing shortcuts.
   Their window uses almost the full width of a narrow terminal.
 - Autocomplete and documentation popups do not appear automatically. In insert

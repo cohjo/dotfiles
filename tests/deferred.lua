@@ -3,7 +3,7 @@ local ok, err = pcall(function()
   assert(vim.g.colors_name == 'tokyonight-night', 'Theme must be ready before first draw')
   assert(not package.loaded['mini.pick'] and not package.loaded['mini.extra'])
   assert(not package.loaded['mini.ai'] and not package.loaded['mini.pairs'])
-  assert(not package.loaded['blink.cmp'])
+  assert(not package.loaded['blink.cmp'] and not package.loaded['gitsigns'])
   assert((package.loaded['mini.statusline'] ~= nil) == (not vim.g.mobile), 'Visible statusline should not pop in later')
   print('PASS: theme/chrome ready, functional modules deferred')
 
@@ -24,6 +24,12 @@ local ok, err = pcall(function()
   local blink = require('blink.cmp')
   assert(vim.deep_equal(caps, blink.get_lsp_capabilities(nil, true)), 'Capability snapshot differs from pinned Blink')
   print('PASS: deferred completion advertises Blink-compatible LSP capabilities')
+
+  require('lazy').load({ plugins = { 'gitsigns.nvim' } })
+  local gs_config = require('gitsigns.config').config
+  assert(gs_config.current_line_blame == not vim.g.mobile, 'Inline Git blame default mismatch')
+  assert(gs_config.current_line_blame_opts.delay == 300, 'Inline Git blame delay was not applied')
+  print('PASS: deferred gitsigns enables lazy inline current-line blame')
 
   local pick = require('features').pick()
   local popup_ready = false

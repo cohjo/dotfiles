@@ -38,6 +38,8 @@ M.daily = {
   { ' gs', 'Space gs', 'Git', 'Browse all changed files (Git status)' },
   { ' gd', 'Space gd', 'Git', 'Browse unstaged diffs by hunk' },
   { ' gD', 'Space gD', 'Git', 'Browse staged diffs by hunk' },
+  { ' gb', 'Space gb', 'Git', 'Show full Git blame for current line' },
+  { ' tb', 'Space tb', 'Git', 'Toggle inline Git blame' },
   { ' hp', 'Space hp', 'Git', 'Preview changed hunk' },
   { '<Esc>', 'Esc', 'Help', 'Close popup and clear search highlighting' },
   { ' ?', 'Space ?', 'Help', 'Search every normal-mode mapping' },

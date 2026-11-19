@@ -24,7 +24,9 @@ Ctrl Space in normal/visual mode expands Treesitter selections, Backspace shrink
 `gcc` / `gc` use Neovim's built-in commenting.
 
 Space hp previews a Git hunk; Space hs stages it; Space hr resets it.
-`[h` / `]h` navigate Git hunks. Persistent undo and system clipboard are enabled.
+Space gb opens full Git blame details for the current line; Space tb toggles
+inline current-line blame. `[h` / `]h` navigate Git hunks. Persistent undo and
+system clipboard are enabled.
 
 ## Explore code and search shortcuts
 
@@ -165,6 +167,9 @@ Reopen the picker to refresh after an agent changes files. File opening checks
 for external edits; Neovim retains its normal protection for unsaved buffers.
 
 `Space gd` browses unstaged hunks across files; `Space gD` browses staged hunks.
+Inline current-line blame loads lazily after startup and queries Git only after
+the cursor rests on a line; `Space gb` opens the full commit blame popup for the
+current line (closed with Escape), and `Space tb` toggles inline blame on or off.
 Existing keys: `]h`/`[h` next/previous hunk in the file, `Space hp` preview hunk,
 `Space hs` stage hunk, and `Space hr` reset hunk (discards that hunk's changes).
 The pickers themselves only inspect/open files and perform no staging or resets.

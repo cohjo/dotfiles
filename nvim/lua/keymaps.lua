@@ -21,6 +21,11 @@ map('n', '<leader>tf', function()
   vim.b.disable_autoformat = not vim.b.disable_autoformat
   vim.notify('Format on save: ' .. (vim.b.disable_autoformat and 'off' or 'on'))
 end, 'Toggle buffer format on save')
+map('n', '<leader>tb', function()
+  local enabled = require('gitsigns').toggle_current_line_blame()
+  if enabled == nil then enabled = require('gitsigns.config').config.current_line_blame end
+  vim.notify('Inline Git blame: ' .. (enabled and 'on' or 'off'))
+end, 'Toggle inline Git blame')
 map('n', ']h', function() require('gitsigns').nav_hunk('next') end, 'Next Git hunk')
 map('n', '[h', function() require('gitsigns').nav_hunk('prev') end, 'Previous Git hunk')
 map('n', '<leader>hp', function() require('gitsigns').preview_hunk() end, 'Preview hunk')
@@ -43,3 +48,4 @@ map('n', '<leader>m', function() require('shortcuts').show_daily() end, 'Most-us
 map('n', '<leader>gs', function() require('git_changes').status() end, 'Git status: browse all changed files')
 map('n', '<leader>gd', function() require('features').extra().pickers.git_hunks() end, 'Git diff: unstaged hunks')
 map('n', '<leader>gD', function() require('features').extra().pickers.git_hunks({ scope = 'staged' }) end, 'Git diff: staged hunks')
+map('n', '<leader>gb', function() require('gitsigns').blame_line({ full = true }) end, 'Git blame: current line commit')

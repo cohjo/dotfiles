@@ -55,7 +55,10 @@ return {
       F7 = 'F7', F8 = 'F8', F9 = 'F9', F10 = 'F10', F11 = 'F11', F12 = 'F12',
     } },
   } },
-  { 'lewis6991/gitsigns.nvim', event = 'VeryLazy', cmd = 'Gitsigns', opts = {} },
+  { 'lewis6991/gitsigns.nvim', event = 'VeryLazy', cmd = 'Gitsigns', opts = {
+    current_line_blame = not vim.g.mobile,
+    current_line_blame_opts = { delay = 300 },
+  } },
   { 'saghen/blink.cmp', version = '1.*', event = 'InsertEnter', opts = {
     keymap = vim.g.mobile and {
       preset = 'default', ['<Tab>'] = { 'show', 'select_next', 'fallback' },
