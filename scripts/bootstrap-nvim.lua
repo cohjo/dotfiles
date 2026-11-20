@@ -1,5 +1,5 @@
 -- Run with the normal config loaded: nvim --headless '+luafile ...'.
-require('lazy').load({ plugins = { 'nvim-lspconfig', 'nvim-treesitter' } })
+require('lazy').load({ plugins = { 'mason.nvim', 'nvim-lspconfig', 'nvim-treesitter' } })
 local registry = require('mason-registry')
 local packages = require('toolchain').packages()
 local refreshed, refresh_ok = false, false

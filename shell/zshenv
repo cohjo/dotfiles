@@ -6,7 +6,10 @@ export LESS='-FRX'
 typeset -U path PATH
 [[ -d /opt/homebrew/bin ]] && path=(/opt/homebrew/bin /opt/homebrew/sbin $path)
 [[ -d /home/linuxbrew/.linuxbrew/bin ]] && path=(/home/linuxbrew/.linuxbrew/bin $path)
-path=("$HOME/.local/bin" "${XDG_DATA_HOME:-$HOME/.local/share}/mise/shims" $path)
+_dotfiles_mise_nvim="${XDG_DATA_HOME:-$HOME/.local/share}/mise/installs/neovim/latest/bin"
+[[ -d "$_dotfiles_mise_nvim" ]] || _dotfiles_mise_nvim=("${XDG_DATA_HOME:-$HOME/.local/share}"/mise/installs/neovim/*/bin(NOn[1]))
+path=("$HOME/.local/bin" $_dotfiles_mise_nvim "${XDG_DATA_HOME:-$HOME/.local/share}/mise/shims" $path)
+unset _dotfiles_mise_nvim
 [[ -r "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/runtime.env.zsh" ]] && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/runtime.env.zsh"
 # Machine-only environment values are never copied into the repository.
 [[ -r "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/env.local.zsh" ]] && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/env.local.zsh"

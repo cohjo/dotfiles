@@ -4,6 +4,8 @@ local ok, err = pcall(function()
   assert(not package.loaded['mini.pick'] and not package.loaded['mini.extra'])
   assert(not package.loaded['mini.ai'] and not package.loaded['mini.pairs'])
   assert(not package.loaded['blink.cmp'] and not package.loaded['gitsigns'])
+  assert(not package.loaded['mason'] and not package.loaded['mason-tool-installer'])
+  assert(vim.g.loaded_python3_provider == 0, 'Legacy remote Python provider must stay disabled')
   assert((package.loaded['mini.statusline'] ~= nil) == (not vim.g.mobile), 'Visible statusline should not pop in later')
   print('PASS: theme/chrome ready, functional modules deferred')
 

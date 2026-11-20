@@ -72,12 +72,26 @@ return {
     },
     fuzzy = { implementation = 'lua' },
     signature = { enabled = not vim.g.mobile },
-  } },
+  }, config = function(_, opts)
+    require('blink.cmp').setup(opts)
+    if pcall(require, 'blink.cmp.fuzzy.rust') then
+      require('blink.cmp.fuzzy').set_implementation('rust')
+    end
+  end },
+  { 'mason-org/mason.nvim', cmd = { 'Mason', 'MasonInstall', 'MasonUpdate', 'MasonLog', 'MasonUninstall', 'MasonUninstallAll' }, opts = {} },
+  { 'WhoIsSethDaniel/mason-tool-installer.nvim',
+    cmd = { 'MasonToolsInstall', 'MasonToolsInstallSync', 'MasonToolsUpdate', 'MasonToolsUpdateSync', 'MasonToolsClean' },
+    dependencies = { 'mason-org/mason.nvim' },
+    config = function()
+      local tools = require('toolchain')
+      require('mason-tool-installer').setup({
+        ensure_installed = tools.packages(), auto_update = false,
+        run_on_start = false, integrations = { ['mason-lspconfig'] = false },
+      })
+    end,
+  },
   { 'neovim/nvim-lspconfig', event = { 'BufReadPre', 'BufNewFile' }, dependencies = {
-    { 'mason-org/mason.nvim', cmd = { 'Mason', 'MasonInstall', 'MasonUpdate', 'MasonLog' }, opts = {} },
-    'mason-org/mason-lspconfig.nvim',
     { 'b0o/SchemaStore.nvim', lazy = true },
-    'WhoIsSethDaniel/mason-tool-installer.nvim',
   }, config = function()
     require('diagnostics').setup()
     local capabilities = require('completion_capabilities').get()
@@ -141,20 +155,18 @@ return {
       workspace = { checkThirdParty = false }, telemetry = { enable = false },
     } } })
     local tools = require('toolchain')
-    require('mason-lspconfig').setup({ automatic_enable = false })
     vim.lsp.enable(vim.tbl_keys(tools.servers))
-    local missing_tools = false
-    for _, name in ipairs(tools.packages()) do
-      if vim.fn.filereadable(vim.fn.stdpath('data') .. '/mason/packages/' .. name .. '/mason-receipt.json') == 0 then
-        missing_tools = true
-        break
+    if not vim.g.mobile and vim.env.DOTFILES_BOOTSTRAP ~= '1' then
+      local data_dir = vim.fn.stdpath('data') .. '/mason/packages/'
+      for _, name in ipairs(tools.packages()) do
+        if not vim.uv.fs_stat(data_dir .. name .. '/mason-receipt.json') then
+          vim.defer_fn(function()
+            require('mason-tool-installer').check_install(false)
+          end, 1000)
+          break
+        end
       end
     end
-    require('mason-tool-installer').setup({
-      ensure_installed = tools.packages(), auto_update = false,
-      run_on_start = not vim.g.mobile and missing_tools and vim.env.DOTFILES_BOOTSTRAP ~= '1', start_delay = 1000,
-      integrations = { ['mason-lspconfig'] = false },
-    })
   end },
   { 'stevearc/conform.nvim', event = 'BufWritePre', cmd = 'ConformInfo', opts = {
     formatters_by_ft = {
@@ -177,8 +189,17 @@ return {
   } },
   { 'nvim-treesitter/nvim-treesitter', branch = 'master', event = { 'BufReadPost', 'BufNewFile' },
     cmd = { 'TSInstall', 'TSInstallSync', 'TSUpdate', 'TSUpdateSync' }, build = ':TSUpdate', config = function()
+    local parsers = require('toolchain').parsers
+    local parser_dir = vim.fn.stdpath('data') .. '/lazy/nvim-treesitter/parser/'
+    local missing_parsers = false
+    for _, lang in ipairs(parsers) do
+      if not vim.uv.fs_stat(parser_dir .. lang .. '.so') and not vim.treesitter.language.add(lang) then
+        missing_parsers = true
+        break
+      end
+    end
     require('nvim-treesitter.configs').setup({
-      ensure_installed = require('toolchain').parsers,
+      ensure_installed = missing_parsers and parsers or {},
       highlight = { enable = true },
       incremental_selection = { enable = true, keymaps = { init_selection = '<C-Space>', node_incremental = '<C-Space>', node_decremental = '<BS>' } },
     })

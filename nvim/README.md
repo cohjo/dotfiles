@@ -146,9 +146,12 @@ with an explicit command fallback; the sign column is reserved from the beginnin
 Formatting loads on save/request, schemas only for JSON/YAML servers, and the
 hierarchy only on request. Pickers apply their final keyboard/window configuration
 before opening. There are no arbitrary idle warmup timers for these features.
-When all declared Mason tools are installed, automatic installer runs are skipped;
-the explicit bootstrap always checks all tools. Config file watchers are disabled;
-restart after changing configuration.
+When all declared Mason tools are installed, Mason and automatic installer runs are
+skipped on file open (`mason/bin` is added directly to `PATH`); the explicit bootstrap
+always checks all tools. Legacy remote-host providers and unused built-in archive/tutor
+plugins are disabled, Lua bytecode caching is enabled, and Blink uses its local native
+Rust fuzzy matcher when available without runtime network checks. Config file watchers
+are disabled; restart after changing configuration.
 
 Startup timing does not measure typing, project indexing or format-on-save latency.
 Language-server cost depends on the language and project; only relevant servers run.
