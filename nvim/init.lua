@@ -42,6 +42,14 @@ vim.api.nvim_create_autocmd('BufReadPost', { callback = function(ev)
   if mark[1] > 0 and mark[1] <= vim.api.nvim_buf_line_count(ev.buf) then pcall(vim.api.nvim_win_set_cursor, 0, mark) end
 end })
 vim.api.nvim_create_autocmd('TextYankPost', { callback = function() vim.highlight.on_yank() end })
+-- Refresh unchanged buffers when an external AI agent or terminal edits files on disk.
+vim.api.nvim_create_autocmd({ 'FocusGained', 'TermClose', 'TermLeave', 'CursorHold' }, {
+  callback = function()
+    if vim.fn.getcmdwintype() == '' and vim.bo.buftype == '' then
+      pcall(vim.cmd, 'silent! checktime')
+    end
+  end,
+})
 if vim.g.mobile then require('mobile').setup() end
 local lazy = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.uv.fs_stat(lazy) then

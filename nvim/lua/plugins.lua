@@ -204,4 +204,7 @@ return {
       incremental_selection = { enable = true, keymaps = { init_selection = '<C-Space>', node_incremental = '<C-Space>', node_decremental = '<BS>' } },
     })
   end },
+  { 'nvim-treesitter/nvim-treesitter-context', cond = not vim.g.mobile, event = 'VeryLazy',
+    opts = { max_lines = 3, multiline_threshold = 1, trim_scope = 'outer' },
+  },
 }

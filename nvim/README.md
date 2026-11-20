@@ -51,6 +51,8 @@ not every built-in Vim command. Which-key still shows available Space sequences.
 | `Space ct` / `Space cT` | Parent / child type hierarchy |
 | `Space cl` | Reopen last hierarchy |
 | `Space s` | Search symbols in the current file |
+| `Space S` | Search symbols across the entire project |
+| `Space A` | Structural AST search (`ast-grep`) across the project |
 | `Space j` / `Space k` | Back / forward through navigation history |
 
 The meow.yarn hierarchy popup loads on demand and queries your language server.
@@ -170,6 +172,11 @@ Reopen the picker to refresh after an agent changes files. File opening checks
 for external edits; Neovim retains its normal protection for unsaved buffers.
 
 `Space gd` browses unstaged hunks across files; `Space gD` browses staged hunks.
+`Space gS` reviews committed changes on your branch against `origin/HEAD` / `main`
+(or `HEAD~1..HEAD` on main) with the same Tab diff preview, and `Space gy` copies
+`relative/path:line` (or `relative/path:start-end` in visual mode) to the clipboard
+for pasting into AI agent prompts. Open file buffers refresh automatically via
+`checktime` when an external agent edits files on disk.
 Inline current-line blame loads lazily after startup and queries Git only after
 the cursor rests on a line; `Space gb` opens the full commit blame popup for the
 current line (closed with Escape), and `Space tb` toggles inline blame on or off.
