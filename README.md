@@ -33,12 +33,12 @@ for requirements, profiles, version policy and machine-specific overrides.
 
 ## Fonts and iPhone editing
 
-Place your licensed Berkeley Mono OTF faces in `fonts/berkeley-mono/` (gitignored)
-if you want `make setup` or `make fonts` to verify and install them automatically;
+Drop any `.otf` or `.ttf` font files (or font family subdirectories) into `fonts/`
+(gitignored) if you want `make setup` or `make fonts` to install them automatically;
 if absent, font installation is skipped cleanly. In Rex choose **Settings → Terminal →
-Typography → Berkeley Mono** once: terminal Neovim and the shell inherit the client's
-font. Neovim also sets Berkeley Mono for GUI frontends, and does not require a Nerd
-Font. See [font setup](fonts/README.md).
+Typography → Berkeley Mono** (or your preferred font) once: terminal Neovim and the
+shell inherit the client's font. Neovim also sets Berkeley Mono for GUI frontends,
+and does not require a Nerd Font. See [font setup](fonts/README.md).
 
 Run **`nvimm`** on the host for phone-friendly editing with the same tools and keys:
 wrapped lines, narrow-screen pickers, quiet diagnostics and manual completion.

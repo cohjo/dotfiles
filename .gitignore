@@ -6,4 +6,5 @@
 !.env.example
 __pycache__/
 *.pyc
-fonts/berkeley-mono/*.otf
+fonts/**/*.otf
+fonts/**/*.ttf

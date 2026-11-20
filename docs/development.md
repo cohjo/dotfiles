@@ -26,7 +26,7 @@ This is intended for a personal development account, not a shared production hos
 | `make configure` | Link/configure using system packages already installed |
 | `make doctor` | Check core commands, links, runtimes and Mason packages |
 | `make doctor PROFILE=containers,data` | Also check optional profiles |
-| `make fonts` | Install/check the licensed Berkeley Mono faces |
+| `make fonts` | Install/check any local `.otf`/`.ttf` font files placed under `fonts/` |
 | `make nvim` | Original Neovim-only bootstrap with existing prerequisites |
 | `make link` | Link shell, runtime, Git defaults, Neovim and tmux; do not install packages |
 
@@ -161,9 +161,9 @@ and [Miniforge](https://github.com/conda-forge/miniforge).
 
 ## Fonts and mobile editing
 
-If you place your licensed Berkeley Mono OTF files in `fonts/berkeley-mono/`
-(gitignored), setup verifies their checksums and installs them for the current user;
-otherwise font installation is skipped cleanly. Select Berkeley Mono in Rex's client
-font settings; that choice applies to both the shell and terminal Neovim. It is not
-a server Lua setting. See [fonts](../fonts/README.md). `nvimm` is linked into
+If you place any `.otf` or `.ttf` files (or font subdirectories) under `fonts/`
+(gitignored), setup installs them for the current user; otherwise font installation
+is skipped cleanly. Select Berkeley Mono (or your preferred monospace font) in Rex's
+client font settings; that choice applies to both the shell and terminal Neovim. It is
+not a server Lua setting. See [fonts](../fonts/README.md). `nvimm` is linked into
 `~/.local/bin` for phone editing; [the mobile guide](mobile.md) explains the profile.
