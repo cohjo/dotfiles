@@ -19,6 +19,10 @@ elif sys.platform.startswith('linux'):
 else:
     raise SystemExit('Automatic font installation supports macOS and Linux.')
 # Verify every source before modifying any installed files.
+missing = [entry['file'] for entry in manifest['fonts'] if not (source / entry['file']).is_file()]
+if missing:
+    print(f'Berkeley Mono: skipped ({len(missing)} licensed OTF file(s) not present in {source}; see fonts/README.md).')
+    raise SystemExit(0)
 for entry in manifest['fonts']:
     file = source / entry['file']
     if file.parent != source or hashlib.sha256(file.read_bytes()).hexdigest() != entry['sha256']:

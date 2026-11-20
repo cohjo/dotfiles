@@ -161,8 +161,9 @@ and [Miniforge](https://github.com/conda-forge/miniforge).
 
 ## Fonts and mobile editing
 
-The licensed font files make this a private personal repository. Setup installs
-them unchanged for the current user. Select Berkeley Mono in Rex's client font
-settings; that choice applies to both the shell and terminal Neovim. It is not
+If you place your licensed Berkeley Mono OTF files in `fonts/berkeley-mono/`
+(gitignored), setup verifies their checksums and installs them for the current user;
+otherwise font installation is skipped cleanly. Select Berkeley Mono in Rex's client
+font settings; that choice applies to both the shell and terminal Neovim. It is not
 a server Lua setting. See [fonts](../fonts/README.md). `nvimm` is linked into
 `~/.local/bin` for phone editing; [the mobile guide](mobile.md) explains the profile.

@@ -1,18 +1,18 @@
-# Licensed personal fonts — keep this repository private
+# Licensed personal fonts
 
-The four unmodified Berkeley Mono OTF files are the repository owner's licensed
-personal copies. They are proprietary U.S. Graphics Company fonts, not open-source
-assets, and are not licensed for redistribution to other users. Their original
-copyright/trademark metadata remains embedded in the font files.
+Berkeley Mono is a commercial typeface from U.S. Graphics Company and is not
+redistributed in Git (`fonts/berkeley-mono/*.otf` is gitignored).
 
-Do not make this repository public or share the fonts. Keep your purchase/license
-records separately; this repository intentionally contains no purchase identifiers.
-No Nerd Font patching, subsetting or other modification is performed.
+To enable automatic installation on a new machine, place your four licensed
+unmodified OTF files (`BerkeleyMono-Regular.otf`, `BerkeleyMono-Oblique.otf`,
+`BerkeleyMono-Bold.otf`, `BerkeleyMono-Bold-Oblique.otf`) into
+`fonts/berkeley-mono/`. When those files are not present, `make setup`,
+`make configure` and `make fonts` skip font installation cleanly.
 
-`make fonts` installs all four faces for the current user on macOS/Linux. Full
-`make setup` / `make configure` also install them. The checksum manifest verifies
-the files and makes repeated installation a no-op. Different installed versions
-are backed up before replacement. The trial font is not included.
+`make fonts` verifies the SHA-256 checksums in `fonts/berkeley-mono/manifest.json`
+and installs all four faces for the current user on macOS/Linux. Repeated
+installation is a no-op, and different installed versions are backed up before
+replacement.
 
 The terminal client chooses the font, including for terminal Neovim. On Rex for
 Mac select **Settings → Terminal → Typography → Terminal font → Berkeley Mono**.
